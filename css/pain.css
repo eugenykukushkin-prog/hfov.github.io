@@ -1,0 +1,191 @@
+:root {
+  font-family: Roboto, "Arial", sans-serif;
+  color: #182d44;
+  background: #f3f6fa;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+.wrap {
+  max-width: 780px;
+  margin: auto;
+  padding: 18px 14px 90px;
+}
+header {
+  background: #102e52;
+  color: white;
+  padding: 22px;
+  border-radius: 17px;
+  margin-bottom: 16px;
+}
+h1 {
+  font-size: 23px;
+  margin: 0 0 7px;
+}
+h2 {
+  font-size: 19px;
+  margin: 0 0 12px;
+}
+.sub {
+  font-size: 13px;
+  opacity: 0.83;
+}
+.tabs {
+  display: flex;
+  gap: 9px;
+  margin-bottom: 15px;
+}
+.tabs button {
+  flex: 1;
+}
+.btn,
+button,
+select {
+  font: inherit;
+}
+button {
+  cursor: pointer;
+  border: 1px solid #c8d4e2;
+  background: white;
+  color: #17385e;
+  border-radius: 11px;
+  padding: 12px 14px;
+  font-weight: 650;
+}
+.tabs button.active {
+  background: #123b69;
+  color: #fff;
+  border-color: #123b69;
+}
+.panel {
+  background: #fff;
+  border: 1px solid #dce4ec;
+  border-radius: 14px;
+  padding: 17px;
+  margin-bottom: 12px;
+}
+.muted {
+  color: #53677b;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.item {
+  border-top: 1px solid #e5ebf1;
+  padding: 16px 0;
+}
+.item:first-child {
+  border-top: 0;
+  padding-top: 3px;
+}
+.item strong {
+  display: block;
+  margin-bottom: 10px;
+}
+.choices {
+  display: grid;
+  gap: 7px;
+}
+.choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 11px;
+  border: 1px solid #d7e1eb;
+  border-radius: 10px;
+  cursor: pointer;
+  line-height: 1.35;
+  font-size: 14px;
+}
+.choice:has(input:checked) {
+  background: #e8f1fb;
+  border-color: #31669c;
+}
+.choice input {
+  accent-color: #164b80;
+  margin-top: 2px;
+  flex: none;
+}
+.score {
+  position: sticky;
+  bottom: 0;
+  background: #102e52;
+  color: #fff;
+  padding: 14px 18px;
+  box-shadow: 0 -4px 20px #152f4c2a;
+  border-radius: 15px 15px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.score b {
+  font-size: 26px;
+}
+.score small {
+  display: block;
+  color: #c7d9ec;
+  margin-top: 4px;
+}
+.actions {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+.actions button {
+  flex: 1;
+}
+.warn {
+  background: #fff7e8;
+  border-left: 4px solid #bc7b24;
+  padding: 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  border-radius: 7px;
+}
+.hide {
+  display: none;
+}
+.field {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #cad7e4;
+  border-radius: 10px;
+  background: white;
+  margin: 9px 0;
+}
+.links a {
+  display: block;
+  overflow-wrap: anywhere;
+  margin: 8px 0;
+  color: #12558b;
+  font-size: 13px;
+}
+label.mode {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  margin: 5px 12px 8px 0;
+  font-weight: 600;
+  font-size: 14px;
+}
+footer {
+  font-size: 12px;
+  color: #53677b;
+  line-height: 1.5;
+  margin-top: 16px;
+}
+@media (min-width: 600px) {
+  .choices {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Переход к шкале гестационной зрелости */
+.ballard-entry{background:#fff;border:1px solid #d7e2ee;border-radius:14px;padding:18px;margin:0 0 16px;color:#182d44}
+.ballard-entry h2{margin:0 0 8px}
+.ballard-entry p{font-size:14px;line-height:1.55;color:#526477;margin:0 0 14px}
+.ballard-link{display:inline-block;background:#1a365d;color:white;text-decoration:none;border-radius:9px;padding:12px 15px;font-weight:700}
+.ballard-link:hover,.ballard-link:focus-visible{background:#2c527e}

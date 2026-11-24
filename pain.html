@@ -1,10 +1,93 @@
-<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#102e52"><title>Шкалы боли — N-PASS / NIPS</title><style>:root{font-family:Roboto,'Arial',sans-serif;color:#182d44;background:#f3f6fa}*{box-sizing:border-box}body{margin:0}.wrap{max-width:780px;margin:auto;padding:18px 14px 90px}header{background:#102e52;color:white;padding:22px;border-radius:17px;margin-bottom:16px}h1{font-size:23px;margin:0 0 7px}h2{font-size:19px;margin:0 0 12px}.sub{font-size:13px;opacity:.83}.tabs{display:flex;gap:9px;margin-bottom:15px}.tabs button{flex:1}.btn,button,select{font:inherit}button{cursor:pointer;border:1px solid #c8d4e2;background:white;color:#17385e;border-radius:11px;padding:12px 14px;font-weight:650}.tabs button.active{background:#123b69;color:#fff;border-color:#123b69}.panel{background:#fff;border:1px solid #dce4ec;border-radius:14px;padding:17px;margin-bottom:12px}.muted{color:#53677b;font-size:13px;line-height:1.5}.item{border-top:1px solid #e5ebf1;padding:16px 0}.item:first-child{border-top:0;padding-top:3px}.item strong{display:block;margin-bottom:10px}.choices{display:grid;gap:7px}.choice{display:flex;align-items:flex-start;gap:10px;padding:11px;border:1px solid #d7e1eb;border-radius:10px;cursor:pointer;line-height:1.35;font-size:14px}.choice:has(input:checked){background:#e8f1fb;border-color:#31669c}.choice input{accent-color:#164b80;margin-top:2px;flex:none}.score{position:sticky;bottom:0;background:#102e52;color:#fff;padding:14px 18px;box-shadow:0 -4px 20px #152f4c2a;border-radius:15px 15px 0 0;display:flex;align-items:center;justify-content:space-between;gap:12px}.score b{font-size:26px}.score small{display:block;color:#c7d9ec;margin-top:4px}.actions{display:flex;gap:9px;flex-wrap:wrap}.actions button{flex:1}.warn{background:#fff7e8;border-left:4px solid #bc7b24;padding:12px;font-size:13px;line-height:1.5;border-radius:7px}.hide{display:none}.field{width:100%;padding:12px;border:1px solid #cad7e4;border-radius:10px;background:white;margin:9px 0}.links a{display:block;overflow-wrap:anywhere;margin:8px 0;color:#12558b;font-size:13px}label.mode{display:inline-flex;gap:6px;align-items:center;margin:5px 12px 8px 0;font-weight:600;font-size:14px}footer{font-size:12px;color:#53677b;line-height:1.5;margin-top:16px}@media(min-width:600px){.choices{grid-template-columns:repeat(2,minmax(0,1fr))}}</style></head><body><main class="wrap"><header><a href="index.html" style="display:inline-block;padding:8px 0;color:inherit">← Главное меню</a><h1>Оценка боли у новорождённых</h1><div class="sub">N-PASS · NIPS | автономный клинический калькулятор</div></header><div class="tabs"><button id="tab-npass" class="active" onclick="switchScale('npass')">N-PASS</button><button id="tab-nips" onclick="switchScale('nips')">NIPS</button></div><section id="npass"><div class="panel"><h2>N-PASS</h2><p class="muted">Neonatal Pain, Agitation and Sedation Scale. Оценка боли/возбуждения и седации проводится <b>раздельно</b> по пяти критериям.</p><label class="mode"><input type="radio" name="mode" value="pain" checked onchange="render()"> Боль / возбуждение</label><label class="mode"><input type="radio" name="mode" value="sedation" onchange="render()"> Седация</label><div id="gaBox"><label for="ga"><b>Гестационный / скорректированный возраст</b></label><select class="field" id="ga" onchange="update()"><option value="" selected>Выберите возраст</option><option value="3">Менее 28 недель (+3)</option><option value="2">28–31 неделя (+2)</option><option value="1">32–35 недель (+1)</option><option value="0">36 недель и более (+0)</option></select><div class="muted">Поправка применяется только к оценке боли, не к седации.</div></div></div><div class="panel" id="npassItems"></div><div class="panel" id="npassResult" aria-live="polite"></div></section><section id="nips" class="hide"><div class="panel"><h2>NIPS</h2><p class="muted">Neonatal Infant Pain Scale. Шесть критериев, сумма 0–7 баллов. Особенно применима для оценки острой процедурной боли.</p></div><div class="panel" id="nipsItems"></div><div class="panel" id="nipsResult" aria-live="polite"></div></section><div class="actions"><button onclick="resetCurrent()">Сбросить оценку</button><button onclick="history.length>1?history.back():location.href='index.html'">← Назад</button></div><div class="panel" style="margin-top:14px"><div class="warn"><b>Ограничения:</b> отсутствие двигательной реакции при глубокой недоношенности, тяжёлом состоянии, выраженной седации или нейромышечной блокаде не исключает боль. При миорелаксации поведенческие шкалы ненадёжны. Интерпретация не заменяет клиническую оценку.</div><div class="links"><b>Источники и методика</b><a href="https://childrenswi.org/-/media/chwlibrary/files/secure/protected-pages/staff/pain-assessment-and-management.pdf" target="_blank" rel="noopener">Children’s Wisconsin — Pain Assessment and Management, N-PASS (2025)</a><a href="https://rightdecisions.scot.nhs.uk/media/swqp1zxc/neonatal-pain-management-guideline_final-29-5-25.pdf" target="_blank" rel="noopener">NHS Lothian — Neonatal Pain Assessment & Management (2025)</a><a href="https://www.ncbi.nlm.nih.gov/books/NBK615330/table/ch14.tab4/" target="_blank" rel="noopener">NCBI Bookshelf — NIPS, критерии и баллы</a><a href="https://sudact.ru/law/klinicheskie-rekomendatsii-bolevoi-sindrom-bs-u-detei/prilozhenie-g/prilozhenie-g1/" target="_blank" rel="noopener">Клинические рекомендации МЗ РФ — приложение NIPS</a></div></div><footer>Работает без сети после сохранения HTML. Данные не передаются и не сохраняются. Для применения в отделении следует согласовать интерпретацию баллов с локальным протоколом.</footer></main><div class="score"><div><span id="scoreLabel">N-PASS · боль</span><small id="scoreHint">Заполните все критерии</small></div><b id="scoreValue">—</b></div><script>
-const np=[{name:'Плач / раздражительность',pain:['Адекватный плач; нет раздражительности','Периодический плач, раздражительность; утешается','Высокий или беззвучный непрерывный плач; не утешается'],sedation:['Нет плача даже на болевой стимул','Минимальный стон или плач на болевой стимул','Адекватный плач']},{name:'Поведенческое состояние',pain:['Соответствует гестационному возрасту','Беспокойство, частые пробуждения','Выгибание, удары ногами, постоянное бодрствование либо минимальная реакция без седации'],sedation:['Нет пробуждения и спонтанных движений','Минимальное пробуждение, мало спонтанных движений','Соответствует гестационному возрасту']},{name:'Мимика',pain:['Расслабленная, соответствует возрасту','Периодические признаки боли','Постоянные признаки боли'],sedation:['Рот расслаблен, мимики нет','Минимальная мимическая реакция на стимул','Обычная мимика']},{name:'Тонус конечностей',pain:['Расслабленные кисти и стопы, нормальный тонус','Периодическое сжатие пальцев / разведение пальцев, без общего напряжения','Постоянное сжатие пальцев / разведение пальцев, напряжённое тело'],sedation:['Вялость, нет хватательных рефлексов','Слабый хватательный рефлекс, снижен тонус','Нормальный тонус']},{name:'Витальные показатели',pain:['В пределах исходных значений','ЧСС / ЧД / АД повышаются на 10–20% при стимуляции; SpO₂ 76–85% с быстрым восстановлением','ЧСС / ЧД / АД повышаются >20%; SpO₂ ≤75% или десинхронизация с аппаратом'],sedation:['Нет вариабельности при стимуляции, гиповентиляция / апноэ','Изменение от исходного уровня <10% при стимуляции','Обычная реакция на стимул']}];
-const ni=[{name:'Выражение лица',opts:['Лицо расслаблено','Гримаса']},{name:'Плач',opts:['Нет плача','Хныканье, слабый прерывистый плач','Громкий непрерывный плач (включая беззвучный при интубации)']},{name:'Характер дыхания',opts:['Обычное спокойное дыхание','Изменение дыхательного паттерна']},{name:'Руки',opts:['Расслаблены','Напряжены, согнуты или разогнуты']},{name:'Ноги',opts:['Расслаблены','Напряжены, согнуты или разогнуты']},{name:'Состояние бодрствования',opts:['Спит или спокойно бодрствует','Беспокоен, возбуждён']}];
-let scale='npass';let values={pain:{},sedation:{},nips:{}};
-function mode(){return document.querySelector('input[name="mode"]:checked').value}function switchScale(s){scale=s;document.getElementById('npass').classList.toggle('hide',s!=='npass');document.getElementById('nips').classList.toggle('hide',s!=='nips');document.getElementById('tab-npass').classList.toggle('active',s==='npass');document.getElementById('tab-nips').classList.toggle('active',s==='nips');render()}
-function renderItems(target,items,key){document.getElementById(target).innerHTML=items.map((it,i)=>'<div class="item"><strong>'+(i+1)+'. '+it.name+'</strong><div class="choices">'+(key==='nips'?it.opts:it[key]).map((desc,j)=>{let v=key==='sedation'?j-2:j;return '<label class="choice"><input type="radio" name="'+key+i+'" value="'+v+'" '+(values[key][i]===v?'checked':'')+' onchange="choose(\''+key+'\','+i+','+v+')"><span><b>'+(v>0?'+':'')+v+'</b> — '+desc+'</span></label>'}).join('')+'</div></div>').join('')}
-function choose(key,i,v){values[key][i]=v;update()}function render(){let m=mode();document.getElementById('gaBox').classList.toggle('hide',m==='sedation');renderItems('npassItems',np,m);renderItems('nipsItems',ni,'nips');update()}
-function update(){let m=mode(),key=scale==='nips'?'nips':m,required=key==='nips'?6:5,vals=Object.values(values[key]),complete=vals.length===required,ga=document.getElementById('ga').value,ready=complete&&(key!=='pain'||ga!==''),sum=vals.reduce((a,b)=>a+b,0)+(key==='pain'&&ga!==''?Number(ga):0),result=document.getElementById(scale+'Result');document.getElementById('scoreLabel').textContent=key==='nips'?'NIPS':m==='pain'?'N-PASS · боль':'N-PASS · седация';document.getElementById('scoreValue').textContent=ready?sum:'—';document.getElementById('scoreHint').textContent=ready?'Оценка завершена':('Заполнено '+vals.length+' из '+required+(key==='pain'&&ga===''?' · укажите возраст':''));if(!ready){result.innerHTML='<b>Результат не рассчитан</b><p class="muted">Необходимо оценить все критерии'+(key==='pain'?' и указать гестационный / скорректированный возраст':'')+'.</p>';return}let msg='';if(key==='pain')msg=sum>3?'Более 3 баллов: требуется оценка необходимости обезболивания / вмешательства.':'0–3 балла: ниже порога >3, используемого в одном из клинических протоколов. Известный болевой стимул требует профилактики боли независимо от баллов.';else if(key==='sedation')msg=sum===0?'Признаков угнетения реакции по шкале нет.':sum<=-8?'Выраженная глубина седации / угнетения реакций.':sum<=-4?'Снижение реактивности, оцените целевой уровень седации.':'Небольшое снижение реактивности; сопоставьте с клинической целью.';else msg=sum===0?'Боль по шкале не выявлена.':sum<=3?'1–3: слабовыраженные признаки боли.':sum<=5?'4–5: умеренно выраженные признаки боли.':'6–7: выраженные признаки боли.';result.innerHTML='<h2>Итог: '+sum+' '+(key==='pain'?'баллов (с поправкой '+(Number(ga)>0?'+':'')+ga+')':'баллов')+'</h2><p>'+msg+'</p>'+(key==='nips'?'<p class="muted">Для NIPS пороги интерпретации различаются между публикациями; здесь используется классификация LOINC (0 / 1–3 / 4–5 / 6–7).</p>':'')}
-function resetCurrent(){let k=scale==='nips'?'nips':mode();values[k]={};if(k==='pain')document.getElementById('ga').value='';render()}render();
-</script></body></html>
+<!DOCTYPE html>
+
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="#102e52" name="theme-color"/>
+<title>Клинические шкалы — N-PASS, NIPS, New Ballard</title>
+<link href="css/pain.css" rel="stylesheet"/>
+</head>
+<body>
+<main class="wrap">
+<header>
+<a href="index.html" style="display: inline-block; padding: 8px 0; color: inherit">← Главное меню</a>
+<h1>Клинические шкалы новорождённых</h1>
+<div class="sub">N-PASS · NIPS · New Ballard Score | автономные инструменты</div>
+</header>
+<section class="ballard-entry"><h2>Оценка гестационной зрелости</h2><p>New Ballard Score: 12 признаков нейромышечной и физической зрелости с расчётом гестационного возраста.</p><a class="ballard-link" href="ballard.html">Открыть шкалу New Ballard Score →</a></section><div class="tabs">
+<button class="active" id="tab-npass" onclick="switchScale('npass')">
+          N-PASS</button><button id="tab-nips" onclick="switchScale('nips')">NIPS</button>
+</div>
+<section id="npass">
+<div class="panel">
+<h2>N-PASS</h2>
+<p class="muted">
+            Neonatal Pain, Agitation and Sedation Scale. Оценка боли/возбуждения
+            и седации проводится <b>раздельно</b> по пяти критериям.
+          </p>
+<label class="mode"><input checked="" name="mode" onchange="render()" type="radio" value="pain"/>
+            Боль / возбуждение</label><label class="mode"><input name="mode" onchange="render()" type="radio" value="sedation"/>
+            Седация</label>
+<div id="gaBox">
+<label for="ga"><b>Гестационный / скорректированный возраст</b></label><select class="field" id="ga" onchange="update()">
+<option selected="" value="">Выберите возраст</option>
+<option value="3">Менее 28 недель (+3)</option>
+<option value="2">28–31 неделя (+2)</option>
+<option value="1">32–35 недель (+1)</option>
+<option value="0">36 недель и более (+0)</option>
+</select>
+<div class="muted">
+              Поправка применяется только к оценке боли, не к седации.
+            </div>
+</div>
+</div>
+<div class="panel" id="npassItems"></div>
+<div aria-live="polite" class="panel" id="npassResult"></div>
+</section>
+<section class="hide" id="nips">
+<div class="panel">
+<h2>NIPS</h2>
+<p class="muted">
+            Neonatal Infant Pain Scale. Шесть критериев, сумма 0–7 баллов.
+            Особенно применима для оценки острой процедурной боли.
+          </p>
+</div>
+<div class="panel" id="nipsItems"></div>
+<div aria-live="polite" class="panel" id="nipsResult"></div>
+</section>
+<div class="actions">
+<button onclick="resetCurrent()">Сбросить оценку</button><button onclick="
+            history.length &gt; 1 ? history.back() : (location.href = 'index.html')
+          ">
+          ← Назад
+        </button>
+</div>
+<div class="panel" style="margin-top: 14px">
+<div class="warn">
+<b>Ограничения:</b> отсутствие двигательной реакции при глубокой
+          недоношенности, тяжёлом состоянии, выраженной седации или
+          нейромышечной блокаде не исключает боль. При миорелаксации
+          поведенческие шкалы ненадёжны. Интерпретация не заменяет клиническую
+          оценку.
+        </div>
+<div class="links">
+<b>Источники и методика</b><a href="https://childrenswi.org/-/media/chwlibrary/files/secure/protected-pages/staff/pain-assessment-and-management.pdf" rel="noopener" target="_blank">Children’s Wisconsin — Pain Assessment and Management, N-PASS
+            (2025)</a><a href="https://rightdecisions.scot.nhs.uk/media/swqp1zxc/neonatal-pain-management-guideline_final-29-5-25.pdf" rel="noopener" target="_blank">NHS Lothian — Neonatal Pain Assessment &amp; Management (2025)</a><a href="https://www.ncbi.nlm.nih.gov/books/NBK615330/table/ch14.tab4/" rel="noopener" target="_blank">NCBI Bookshelf — NIPS, критерии и баллы</a><a href="https://sudact.ru/law/klinicheskie-rekomendatsii-bolevoi-sindrom-bs-u-detei/prilozhenie-g/prilozhenie-g1/" rel="noopener" target="_blank">Клинические рекомендации МЗ РФ — приложение NIPS</a>
+</div>
+</div>
+<footer>
+        Работает без сети после сохранения HTML. Данные не передаются и не
+        сохраняются. Для применения в отделении следует согласовать
+        интерпретацию баллов с локальным протоколом.
+      </footer>
+</main>
+<div class="score">
+<div>
+<span id="scoreLabel">N-PASS · боль</span><small id="scoreHint">Заполните все критерии</small>
+</div>
+<b id="scoreValue">—</b>
+</div>
+<script src="js/pain.js"></script>
+</body>
+</html>

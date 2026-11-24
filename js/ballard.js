@@ -1,0 +1,17 @@
+
+const groups=[{title:'Нейромышечная зрелость',items:[
+['Поза',[0,1,2,3,4],'От разгибания конечностей (0) к выраженному сгибанию (4); сопоставить с рисунком шкалы'],
+['Квадратное окно (запястье)',[-1,0,1,2,3,4],'−1: >90° · 0: 90° · 1: 60° · 2: 45° · 3: 30° · 4: 0°'],
+['Возврат руки (Arm recoil)',[0,1,2,3,4],'0: 180° · 1: 140–180° · 2: 110–140° · 3: 90–110° · 4: <90°'],
+['Подколенный угол',[-1,0,1,2,3,4,5],'−1: 180° · 0: 160° · 1: 140° · 2: 120° · 3: 100° · 4: 90° · 5: <90°'],
+['Симптом шарфа',[-1,0,1,2,3,4],'От свободного перемещения локтя через грудь к ограничению движения; сверить с рисунком'],
+['Пятка к уху',[-1,0,1,2,3,4],'От лёгкого приближения пятки к уху к выраженному сопротивлению; сверить с рисунком']]},
+{title:'Физическая зрелость',items:[
+['Кожа',[-1,0,1,2,3,4,5],'−1: липкая, прозрачная · 0: желеобразная · 1: розовая, видны вены · 2: шелушение · 3: трещины · 4: пергаментная · 5: кожистая'],
+['Лануго',[-1,0,1,2,3,4],'−1: нет (крайняя незрелость) · 0: редкие · 1: обильные · 2: редеют · 3: участки без волос · 4: почти отсутствуют'],
+['Подошвенная поверхность',[-2,-1,0,1,2,3,4],'−2: длина стопы <40 мм · −1: 40–50 мм · 0: >50 мм, без складок · 1: красные отметины · 2: передняя складка · 3: складки на 2/3 · 4: вся подошва'],
+['Молочная железа',[-1,0,1,2,3,4],'−1: не определяется · 0: едва заметна · 1: плоская ареола · 2: зачаток 1–2 мм · 3: 3–4 мм · 4: 5–10 мм'],
+['Глаза / ушная раковина',[-2,-1,0,1,2,3,4],'−2: веки плотно сращены · −1: рыхло сращены · 0: ушная раковина плоская · 1: мягкая, медленно расправляется · 2: быстро расправляется · 3: плотная · 4: жёсткая'],
+['Гениталии',[-1,0,1,2,3,4],'М: от гладкой мошонки (−1) до опущенных яичек и глубоких складок (4). Ж: от выступающего клитора (−1) до полного прикрытия большими губами (4). Сверить с оригинальной таблицей']]}];
+const values={};let idx=0;const form=document.getElementById('form');groups.forEach(g=>{const h=document.createElement('h2');h.textContent=g.title;form.append(h);g.items.forEach(([name,scores,hint])=>{const id=idx++;const el=document.createElement('section');el.className='item';const label=document.createElement('div');label.className='name';label.textContent=(id+1)+'. '+name;const info=document.createElement('div');info.className='hint';info.textContent=hint;const opts=document.createElement('div');opts.className='opts';scores.forEach(score=>{const b=document.createElement('button');b.type='button';b.textContent=score;b.setAttribute('aria-label',name+': '+score);b.onclick=()=>{values[id]=score;opts.querySelectorAll('button').forEach(x=>x.classList.remove('active'));b.classList.add('active');update()};opts.append(b)});el.append(label,info,opts);form.append(el)})});function update(){const n=Object.keys(values).length;document.getElementById('progress').textContent='Оценено '+n+' из 12';if(n!==12){document.getElementById('weeks').textContent='— недель';document.getElementById('total').textContent='Сумма баллов: —';return}const sum=Object.values(values).reduce((a,b)=>a+b,0);const w=24+0.4*sum;document.getElementById('weeks').textContent=w.toFixed(1).replace('.',',')+' нед.';document.getElementById('total').textContent='Сумма баллов: '+sum+(sum < -10||sum >50?' · вне диапазона таблицы':'')};document.getElementById('reset').onclick=()=>{Object.keys(values).forEach(k=>delete values[k]);document.querySelectorAll('.opts button.active').forEach(b=>b.classList.remove('active'));update();scrollTo({top:0,behavior:'smooth'})};update();
+
